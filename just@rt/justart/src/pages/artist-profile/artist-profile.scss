@@ -1,0 +1,102 @@
+page-artist-profile {
+
+    /***
+    *
+    * PROFILE CARD
+    *
+    */
+
+    .profile-container {
+        background-size: 100% 100% ;
+        min-height: 200px ;
+    }
+
+    .item ion-avatar img {
+        height : 70px;
+        width : 70px;
+    }
+
+    .profile-card .item p, .profile-card .item h1, .profile-card .item span {
+        color : color($colors,light)
+    }
+
+    // Apllies to both Profile Card and Gallery
+    .gallery .item, .profile-card .item {
+        background : transparent
+    }
+
+    // Remove Box shading on cards
+    .profile-card, .img-card, .posts-card {
+        width : 100%;
+        border-radius : 0px;
+        margin : 0px;
+        box-shadow : none ;
+        -webkit-box-shadow : none
+    }
+
+    // Ensure that text is not wrapped
+    .bio-text {
+        white-space: normal;
+    }
+
+    /***
+    *
+    *   Transparency for Cards  
+    *
+    */
+
+    .gallery .img-card {
+        background: transparent;
+        background-color: rgba(0,0,0,0.3);
+        color: color($colors,light);
+        height:100%
+    }
+
+    .profile-card {
+        background: transparent;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /***
+    *
+    *  GALLERY STYLING
+    *
+    */
+
+
+    .gallery .img-card p, .gallery .img-card h2 {
+        color: color($colors,light);
+    }
+
+    .gallery .image-container {
+        background-size: 100% 100% ;
+        filter: contrast(-110%);
+        min-height: 200px ;
+        margin: 2px
+    }
+
+    // Applies to both posts and gallery
+
+    .liked {
+        color : color($colors,danger) ;
+    }
+
+    /***
+    *
+    * POSTS STYLING
+    *
+    */
+
+    .card-container {
+        background-size: 100% 100%;
+        height: 60vh
+    }
+
+    .posts-card-item {
+        background-color : rgba(0, 0, 0, 0.5) ;
+    }
+
+    .posts-card-item p, .posts-card-item h2, .posts-card-item span {
+        color:color($colors,light)
+    }
+}

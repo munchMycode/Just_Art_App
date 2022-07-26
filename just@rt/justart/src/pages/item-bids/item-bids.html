@@ -1,0 +1,139 @@
+<!--
+ allowa user to view and bid on items
+-->
+<ion-header>
+
+  <ion-navbar color="dark">
+
+    <ion-title>Bids</ion-title>
+
+    <ion-buttons end>
+      <!-- Sync Button -->
+      <button ion-button clear icon-only>
+        <ion-icon name='sync'></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding auto-hide>
+
+  <!-- List -->
+  <ion-list>
+
+    <!-- List Header -->
+    <ion-list-header ion-text color="orange-fruit">
+
+      {{bids.length==0 ? 'No bids yet for '+item.name : "Bids for '"+item.name+"' - "+item.year}}
+
+      <!-- Num Of Bids -->
+      <button ion-button clear icon-only item-end color="orange-fruit">
+        {{bids.length}}
+        <ion-icon name='trending-up'></ion-icon>
+      </button>
+
+    </ion-list-header>
+
+    <!-- Item -->
+    <ion-item *ngFor='let bid of bids; let i = index'>
+
+      <!-- Avatar -->
+      <ion-avatar item-start (tap)="bid.user.handle==user.handle ? '' : viewProfile(bid)">
+        <img src={{bid.user.img}}>
+      </ion-avatar>
+
+      <!-- Date -->
+      <p class='date-in-list' text-end ion-text color="typical">
+        {{bid.date|timeago:'short'}}
+      </p>
+
+      <!-- Handle -->
+      <h2 class="user-handle">{{bid.user.handle}}</h2>
+
+      <!-- User Type -->
+      <p ion-text color="primary" text-capitalize>{{bid.user.type}}</p>
+
+      <!-- User Info -->
+      <p class="user-info">
+          
+        <!-- Followers -->
+        <button disabled ion-button clear icon-only small text-lowercase color="primary">
+          <!-- Icon -->
+          <ion-icon name='people'></ion-icon>
+          {{bid.followers|nicestats:'short'}}
+        </button>
+
+        <!-- Likes -->
+        <button disabled ion-button clear icon-only small text-lowercase>
+          <!-- Icon -->
+          <ion-icon name='heart'></ion-icon>
+          {{bid.likes|nicestats:'short'}}
+        </button>
+
+        <!-- Bids -->
+        <button disabled ion-button clear icon-only small text-lowercase>
+          <!-- Icon -->
+          <ion-icon name='trending-up'></ion-icon>
+          {{bid.bids|nicestats:'short'}}
+        </button>
+        
+        <!-- Works -->
+        <button disabled ion-button clear icon-only small *ngIf="bid.works > 0" text-lowercase>
+          <!-- Icon -->
+          <ion-icon name='color-palette'></ion-icon>
+          {{bid.works|nicestats:'short'}}
+        </button>
+
+      </p>
+      <!-- ./User Info -->
+
+      <!-- Bid Options -->
+      <p class="bid-options" text-end>
+
+        <!-- Amount -->
+        <button ion-button clear class="bid-amount" ion-text color="orange-fruit">
+          {{bid.amount | currency:'ZAR': '1.0'}}
+        </button>
+
+        <!-- Edit Button -->
+        <button ion-button clear icon-only small (tap)="editBid(bid)" *ngIf="bid.user.handle == user.handle">
+
+          <!-- Icon -->
+          <ion-icon name="create"></ion-icon>
+        </button>
+
+        <!-- Delete Button -->
+        <button ion-button clear icon-only small (tap)="deleteBid(bid,i)" *ngIf="bid.user.handle == user.handle">
+
+          <!-- Icon -->
+          <ion-icon name="trash"></ion-icon>
+        </button>
+
+      </p>
+      <!-- ./Bid Options -->
+
+    </ion-item>
+    <!-- ./Item -->
+
+  </ion-list>
+
+  <!-- ./List -->
+
+  <!-- Fab -->
+  <ion-fab bottom right #fab>
+  
+    <!-- Add Button -->
+    <button ion-fab mini (tap)="addBid()">
+
+      <!-- Icon -->
+      <ion-icon name='add'></ion-icon>
+    </button>
+  
+  </ion-fab>
+  <!-- /.Fab -->
+
+</ion-content>
+

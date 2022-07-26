@@ -1,0 +1,23 @@
+page-item-likes {
+
+    // Date 
+    .date-in-list{
+        font-size: 12px;
+        flex-wrap: nowrap;
+        // font-weight: 500
+    }
+
+    .list-header {
+        margin:0px;
+        background-color: color($colors,dark);
+    }
+
+    .user-handle {
+        font-size:1.4rem
+    }
+
+    .user-info {
+        padding-bottom : 0px
+    }
+
+}

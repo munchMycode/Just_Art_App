@@ -1,0 +1,101 @@
+<!-- 
+  allows user to 
+  - view likes on an item
+  - view profiles of those who liked item
+ -->
+
+<ion-header>
+
+  <ion-navbar color="dark">
+
+    <ion-title>
+      Likes
+      <!-- <p>{{likes.length|nicestats:'short'}} {{"People who liked ''"+item.name+"' - "+item.year}}</p> -->
+    </ion-title>
+
+    <!-- Num Of Likes -->
+    <ion-buttons end>
+      
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+
+  <ion-list [virtualScroll]="likes" [approxItemHeight]=" '120px' " [bufferRatio]="3" [approxItemWidth]=" '100%' ">
+
+    <!-- List Header -->
+    <ion-list-header ion-text color="orange-fruit">
+
+      <!-- {{"People who liked ''"+item.name+"' - "+item.year}} -->
+
+      <!-- Num Of Likes -->
+      <!-- <button ion-button clear icon-only icon-left color="orange-fruit" item-end>
+        {{likes.length|nicestats:'short'}}
+        <ion-icon name='heart'></ion-icon>
+      </button> -->
+
+    </ion-list-header>
+
+    <!-- Item -->
+    <ion-item *virtualItem='let like ; let i = index ;' (tap)='viewProfile(like)'>
+
+      <!-- Avatar -->
+      <ion-avatar item-start>
+        <img src={{like.user.img}}>
+      </ion-avatar>
+
+      <!-- Date -->
+      <p class='date-in-list' text-end ion-text color="typical">
+        {{like.date|timeago:'short'}}
+      </p>
+
+      <!-- User Handle -->
+      <h2 ion-text color="light" class="user-handle">{{like.user.handle}}</h2>
+
+      <!-- User Type -->
+      <p ion-text color="primary" text-capitalize>{{like.user.type}}</p>
+
+      <!-- User Info -->
+      <p class="user-info" text-start>
+
+          <!-- Followers -->
+          <button disabled ion-button clear icon-only small text-lowercase>
+            <!-- Icon -->
+            <ion-icon name='people'></ion-icon>
+            {{like.followers|nicestats:'long'}}
+          </button>
+
+          <!-- Likes -->
+          <button disabled ion-button clear icon-only small text-lowercase>
+            <!-- Icon -->
+            <ion-icon name='heart'></ion-icon>
+            {{like.likes|nicestats:'long'}}
+          </button>
+
+          <!-- Bids -->
+          <button disabled ion-button clear icon-only small text-lowercase>
+            <!-- Icon -->
+            <ion-icon name='trending-up'></ion-icon>
+            {{like.bids|nicestats:'long'}}
+          </button>
+          
+        <!-- Works -->
+        <button disabled ion-button clear icon-only small *ngIf="like.works > 0" text-lowercase>
+          <!-- Icon -->
+          <ion-icon name='color-palette'></ion-icon>
+          {{like.works|nicestats:'long'}}
+        </button>
+
+      </p>
+      <!-- ./User Info -->
+
+    </ion-item>
+    <!-- ./Item -->
+
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,77 @@
+page-item-comments {
+    // Comment paragraph when normal
+    .comment-text {
+        white-space: nowrap;
+        padding: 4px 0px;
+        transition: 300ms linear;
+        -webkit-transition: 300ms linear;
+    }
+
+    // Text in sub-list always noraml
+    .reply-text {
+        white-space: normal;
+        padding-top:4px
+    }
+
+    // Comment paragraph when focused
+    .comment {
+        white-space: normal;
+        padding: 8px 0px;
+        font-weight: 500;
+        transition: 300ms linear;
+        -webkit-transition: 300ms linear
+    }
+
+    // Item highlight on select for reply
+    .highlight {
+        background-color : color($colors,orange-fruit);
+        transition: 300ms linear;
+        -webkit-transition: 300ms linear
+    }
+
+    // Reply List border color when focused
+    ion-list.reply-list {
+        border-left-style: outset;
+        border-left-color: #b2ebf2 ;
+        transition: 300ms linear;
+        -webkit-transition: 300ms linear 
+    }
+
+    ion-list.reply-off {
+        border-left-style: unset;
+        transition: 300ms linear;
+        -webkit-transition: 300ms linear 
+    }
+
+    // Date
+    .note-in-list {
+        font-size: 12px;
+        flex-wrap: nowrap;
+    }
+
+    // Sub List handle 
+    .sub-list-handle, .user-handle {
+        font-size: 1.4rem;
+    }
+
+    // List heading
+    .list-header {
+        margin:0px;
+    }
+
+    // Reply in sublist option
+    .view-replies {
+        font-size: 13px;
+    }
+
+    .num-replies, .view-replies {
+        font-weight:500;
+    }
+
+    // Textarea Styling
+    .text-input {
+        width: 100%;
+        margin: 12px 8px
+    }
+
+}

@@ -1,0 +1,217 @@
+<!-- 
+  Allows user to create, reply edit and delete comments
+ -->
+<ion-header>
+
+  <ion-navbar color="dark">
+
+    <!-- Title -->
+    <ion-title>
+      <span>{{comments.length|nicestats:'short'}}</span> {{comments.length == 1 ? 'Comment':'Comments'}}
+    </ion-title>
+
+    <!-- Sync Button -->
+    <ion-buttons end>
+      <button ion-button clear icon-only (tap)="refreshComments()" item-end>
+        <ion-icon name='sync'></ion-icon>
+        </button>
+    </ion-buttons>
+  
+  </ion-navbar>
+  
+</ion-header>
+
+<ion-content no-padding>
+  <!-- Virtual List -->
+  <ion-list [virtualScroll]="comments" [approxItemHeight]=" '147px' " [bufferRatio]="3" [approxItemWidth]=" '100%' ">
+
+    <!-- List Header -->
+    <!-- <ion-list-header>
+      <p ion-text color="orange-fruit">
+        {{comments.length==0 ? 'No comments':"Comments on '"+item.name+"' - "+item.year}}
+      </p> -->
+
+      <!-- Button -->
+      <!-- <button ion-button clear icon-only item-end color="orange-fruit">
+        {{comments.length}}
+        <ion-icon name='chatboxes'></ion-icon>
+      </button>
+
+    </ion-list-header> -->
+
+    <!-- Comment -->
+    <ion-item *virtualItem='let comment; let i =index;' [class.highlight]="comment.focus==true && target == comment.user.handle">
+
+      <!-- Avatar -->
+      <ion-avatar item-start (tap)='viewProfile(comment)'>
+        <img src={{comment.user.img}} [class.ring-border]="comment.viewList==true">
+      </ion-avatar>
+
+      <!-- Date -->
+      <p class='note-in-list' text-end ion-text [color]="target==comment.user.handle ? 'dark':'typical'">
+        {{comment.date|timeago:null}}
+      </p>
+
+      <!-- Handle -->
+      <h2 class="user-handle">{{comment.user.handle}}</h2>
+      <p text-capitalize ion-text [color]="target == comment.user.handle ? 'dark':'primary'">{{comment.user.type}}</p>
+
+      <!-- Comment Text -->
+      <p [class.comment-text]="comment.viewText==false" [class.comment]="comment.viewText==true || comment.viewList==true" (tap)="comment.viewText ? comment.viewText=false : comment.viewText=true">
+        {{comment.text}} 
+      </p>
+
+      <!-- Root Actions+Comment -->
+      <p class="view-replies" text-end>
+
+        <!-- View -->
+        <span class="num-replies" (tap)="comment.replies > 0 ? getReplies(comment) : '' " >
+         
+          <!-- Text Button -->
+          <button ion-button icon-only clear small [color]="target==comment.user.handle ? 'dark': 'primary' ">
+            {{comment.replies}} 
+            <!-- Icon -->
+            <ion-icon name="{{comment.viewList ? 'eye-off' : 'chatboxes'}}"></ion-icon>
+          </button>
+
+        </span> 
+
+        <!-- Reply -->
+        <span class="reply-now" (tap)='replyToComment(comment,i,null)' *ngIf="comment.viewList==false && comment.user.handle !==user.handle">
+
+          <!-- Reply Button -->
+          <button ion-button icon-only clear small [color]="target == comment.user.handle ? 'dark':'primary'">
+            <!-- Icon -->
+            <ion-icon name="{{comment.focus ? 'remove-circle' : 'share-alt'}}"></ion-icon>
+          </button>
+
+        </span>
+
+        <!-- Edit -->
+        <span class="reply-now" (tap)='editComment(comment,i,null)' *ngIf="comment.user.handle == user.handle">
+          
+          <!-- Edit Button -->
+          <button ion-button icon-only clear small>
+              <!-- Icon -->
+              <ion-icon name="{{comment.focus ? 'remove-circle':'create'}}"></ion-icon>
+            </button>
+        </span>
+
+        <!-- Delete -->
+        <span class="reply-now" (tap)='deleteComment(comment,i,null)' *ngIf="comment.user.handle == user.handle">
+
+          <!-- Delete Button -->
+          <button ion-button icon-only clear small>
+            <!-- Icon -->
+            <ion-icon name="trash"></ion-icon>
+          </button>
+
+        </span>
+      </p>
+      <!-- ./Root Action+Comment -->
+
+      <!-- Replies -->
+      <ion-list [class.reply-list]="comment.viewList==true" [class.reply-off]="comment.viewList==false" *ngIf="comment.viewList==true">
+        <ion-item *ngFor='let reply of comment.conversation, let x=index' [class.highlight]="reply.focus==true && target == reply.user.handle">
+
+          <!-- Avatar -->
+          <ion-avatar item-start (tap)='viewProfile(reply)'>
+            <img src={{reply.user.img}}>
+          </ion-avatar>
+
+          <!-- Date -->
+          <p class='note-in-list date-sub-list' text-end ion-text [color]="target == reply.user.handle ? 'dark' : 'typical'">
+            {{reply.date|timeago:'short'}}
+          </p>
+
+          <!-- Handle -->
+          <h2 class="sub-list-handle" ion-text [color]="target == reply.user.handle ? 'dark' : 'primary' ">
+            {{reply.user.handle}}
+          </h2>
+          <p text-capitalize ion-text [color]="target == reply.user.handle ? 'primary' : 'dark'">
+            {{reply.user.type}}
+          </p>
+
+          <!-- Reply Text -->
+          <p class="reply-text">
+            {{ reply.target ? reply.target+' '+reply.text : reply.text}}
+          </p>
+
+          <!-- Reply Actions -->
+          <p class="view-replies" text-end>
+
+            <!-- Reply -->
+            <span (tap)='replyToComment(reply,i,x)' *ngIf="reply.user.handle !==user.handle">
+
+              <!-- Reply Button -->
+              <button ion-button icon-only clear small [color]="target == reply.user.handle ? 'dark' : 'primary'">
+                <!-- Icon -->
+                <ion-icon name="{{reply.focus && target == reply.user.handle ? 'remove-circle':'share-alt'}}"></ion-icon>
+              </button>
+
+            </span>
+
+            <!-- Edit -->
+            <span (tap)='editComment(reply,i,x)' *ngIf="reply.user.handle==user.handle">
+
+              <!-- Edit Button -->
+              <button ion-button icon-only clear small>
+                <!-- Icon -->
+                <ion-icon name="{{reply.focus ? 'remove-circle':'create'}}"></ion-icon>
+              </button>
+
+            </span>
+
+            <!-- Delete -->
+            <span (tap)='deleteComment(reply,i,x)' *ngIf="reply.user.handle==user.handle">
+
+              <!-- Delete Button -->
+              <button ion-button icon-only clear small>
+                <!-- Icon -->
+                <ion-icon name="trash"></ion-icon>
+              </button>
+
+            </span>
+
+          </p>
+        </ion-item>
+        <!-- ./Reply -->
+          
+        </ion-list>
+      <!-- ./Replies -->
+    </ion-item>
+    <!-- ./Comment -->
+
+  </ion-list>
+  <!-- ./Virtual List -->
+</ion-content>
+
+<!-- Footer -->
+<ion-footer>
+  <ion-row>
+
+    <!-- Text Col -->
+    <ion-col col-10 text-center>
+      <ion-textarea [(ngModel)]='commentText' placeholder="{{ target == null ? 'Your comment on '+item.name : 'Your comment to '+target }}">
+      </ion-textarea>
+
+    </ion-col>
+    <!-- Button Col -->
+    <ion-col col-2 text-center>
+
+      <!-- Send Button -->
+      <button [disabled]="commentText==null" ion-button clear icon-only (tap)="sendReply(commentText)" *ngIf="edit==false">
+        <ion-icon name='send'></ion-icon>
+      </button>
+
+      <!-- Edit Button -->
+      <button [disabled]="commentText==null" ion-button clear icon-only (tap)="sendEdit(commentText)" *ngIf="edit==true">
+        <ion-icon name='send'></ion-icon>
+      </button>
+
+    </ion-col>
+
+  </ion-row>
+</ion-footer>
+
+

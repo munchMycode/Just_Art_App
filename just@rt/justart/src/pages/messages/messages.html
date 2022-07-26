@@ -1,0 +1,158 @@
+<!--
+  allows user to view, reply to and delete messages
+-->
+<ion-header>
+
+  <ion-navbar color="dark">
+
+    <ion-title>Messages</ion-title>
+
+    <!-- Heade Info Button -->
+    <ion-buttons end>
+      <button ion-button clear icon-only (tap)="syncInbox()">
+        <ion-icon name='sync'></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content no-padding>
+
+  <!-- Main List -->
+  <ion-list class="main-list">
+
+    <!-- List Header -->
+    <ion-list-header ion-text color="orange-fruit">
+
+      {{messages.length==0 ? 'You have no messages':'Inbox'}}
+      <!-- Refresh Button -->
+      <button ion-button clear icon-only item-end ion-text color="orange-fruit" >
+        <ion-icon name="text"></ion-icon>
+        {{messages.length}}
+      </button>
+
+    </ion-list-header>
+    <!-- ./List Header -->
+
+    <!-- Main Message -->
+    <ion-item *ngFor='let message of messages; let i=index;' [class.highlight]="target==message.user.handle">
+
+      <!-- Avatar -->
+      <ion-avatar item-start>
+        <img src={{message.user.img}}/>
+      </ion-avatar>
+      
+      <!-- Date -->
+      <p class='note-in-list' text-end ion-text [color]="target==message.user.handle ? 'dark':'typical'">
+        {{message.date|timeago:null}}
+      </p>
+
+      <!-- Handle -->
+      <h2 class="user-handle">{{message.user.handle}}</h2>
+
+      <!-- User Type -->
+      <p text-capitalize ion-text [color]="target==message.user.handle ? 'dark':'primary'">{{message.user.type}}</p>
+
+      <!-- Message Texts -->
+      <p [class.live-text]="currentlyOpen==i" [class.message]="message.drop==false">
+        {{message.text}}
+      </p>
+
+      <!-- Actions -->
+      <p text-end>
+
+        <!-- View Message/Convo -->
+        <span (tap)="viewConversation(message,i); currentlyOpen ! == i ? message.drop = true : message.drop = false;" *ngIf = "message.messages > 0 ">
+
+          <!-- Open Button -->
+          <button ion-button icon-only clear small ion-text [color]="target==message.user.handle ? 'dark':'primary'">
+            {{message.messages}}
+            <!-- Icon -->
+            <ion-icon name="{{currentlyOpen ! == i ? 'eye-off' : 'chatboxes'}}"></ion-icon>
+          </button>
+          
+        </span>
+
+        <!-- Reply -->
+        <span (tap)="replyToMessage(message)">
+
+          <!-- Create Button -->
+          <button ion-button icon-only clear small [color]="target==message.user.handle ? 'dark':'primary'">
+            <!-- Icon -->
+            <ion-icon name="{{message.user.handle == target ? 'remove-circle' : 'create'}}"></ion-icon>
+          </button>
+
+        </span>
+
+        <!-- Delete -->
+        <span (tap)="deleteMessage(message,i)">
+          <!-- Delete Button -->
+          <button ion-button icon-only clear small [color]="target==message.user.handle ? 'dark':'primary'">
+              <!-- Icon -->
+              <ion-icon name="trash"></ion-icon>
+            </button>
+        </span>
+
+      </p>
+
+      <!-- Conversation List -->
+      <ion-list class="sub-list" *ngIf="message.drop==true && message.conversation.length && currentlyOpen == i">
+
+        <!-- Convo Item -->
+        <ion-item *ngFor="let msg of message.conversation">
+
+          <!-- Avatar -->
+          <ion-avatar item-start>
+            <img src={{msg.user.img}}/>
+          </ion-avatar>
+
+          <!-- Date -->
+          <p class='note-in-list date-sub-list' text-end ion-text color="typical">
+            {{msg.date|timeago:'short'}}
+          </p>
+
+          <!-- Handle -->
+          <h2 class="user-handle">{{msg.user.handle}}</h2>
+
+          <!-- Message -->
+          <p class="message-text">
+            {{msg.text}}
+          </p>
+
+        </ion-item>
+        <!-- ./Convo Item -->
+
+      </ion-list>
+      <!-- ./Conversation List -->
+
+    </ion-item>
+    <!-- ./Main Message -->
+
+  </ion-list>
+  <!-- ./Main List -->
+</ion-content>
+
+<!-- Footer -->
+<ion-footer>
+  <ion-row>
+
+    <!-- Text Col -->
+    <ion-col col-10 text-center>
+      <ion-textarea [(ngModel)]='messageText' placeholder="{{ target=='' ? 'Select message to reply to' : 'Your message to '+target }}">
+      </ion-textarea>
+
+    </ion-col>
+    <!-- Button Col -->
+    <ion-col col-2 text-center>
+
+      <!-- Send Button -->
+      <button [disabled]="messageText==''" ion-button clear icon-only (tap)="sendMessage(messageText)" [color]="orange-fruit">
+        <ion-icon name='send'></ion-icon>
+      </button>
+
+    </ion-col>
+
+  </ion-row>
+</ion-footer>

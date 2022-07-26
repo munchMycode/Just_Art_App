@@ -1,0 +1,53 @@
+page-home {
+
+    // Card
+    .card {
+      margin:0px;
+      width:100%;
+      border-radius: 0px;  
+      -webkit-box-shadow:none;
+      box-shadow: none;
+
+    //   Experimenting with image as background
+    //    height: 60vh ;
+    //    background-size : 100% 100% ;
+    //    background-repeat: none;
+    }
+    
+    // Card Img size
+    .image-container { 
+       height: 60vh ;
+       background-size : 100% 100% ;
+       background-repeat: none;
+    //    background-size: cover
+    }
+
+    // Tags
+    ion-col.tags-list{
+        padding: 0px 7px
+    }
+
+    // Like icon color change
+    .liked {
+        color: color($colors,danger)
+    }
+
+    // Repost icon color change
+    .repost {
+        color: color($colors,soft-yellow)
+    }
+
+
+    // Bidding Date
+    .bid-date, .event-date {
+        font-size: 12px
+    }
+
+
+
+    
+
+
+    
+
+}

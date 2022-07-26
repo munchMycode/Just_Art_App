@@ -1,0 +1,66 @@
+page-messages {
+
+    // Date
+    .note-in-list{
+        font-size: 12px;
+        flex-wrap: nowrap
+    }
+
+    .list-header {
+        margin-bottom:0px;
+        background-color: color($colors,dark)
+    }
+
+    .message-text {
+        white-space: normal;
+        padding: 4px 0px;
+    }
+
+    // When convo is being opened
+    .live-text {
+        white-space: normal;
+        padding: 7px 0px;
+        font-weight: 500;
+        transition: 200ms linear;
+        -webkit-transition: 200ms linear
+    }
+    // Normal message when view entered
+    .message {
+        white-space: nowrap;
+        padding: 2px 0px;
+        transition: 200ms linear;
+        -webkit-transition: 200ms linear
+    }
+
+    // Highlight when message is selected for reply
+    .highlight {
+        background-color: color($colors,orange-fruit);
+        transition: 200ms linear;
+        -webkit-transition: 200ms linear
+    }
+
+    // Colors for date and view option
+    .view, .date-sub-list {
+        color:color($colors,typical)
+    }
+
+    // User Handle
+    .user-handle {
+        font-size : 1.4rem
+    }
+
+    // Sub list border styling 
+    .sub-list {
+        border-left-style: outset;
+        border-left-color: #b2ebf2 ;
+        transition: 300ms linear;
+        -webkit-transition: 300ms linear 
+    }
+
+    // Textarea
+    .text-input {
+        width: 100%;
+        margin: 12px 8px
+    }
+
+}
